@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Task Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-labelledby="appTitle">
+      <header>
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1 id="appTitle">Task Manager</h1>
+          </div>
+        </div>
+        <button
+          id="controlsToggle"
+          class="controls-toggle"
+          aria-expanded="true"
+          aria-controls="toolbarControls"
+          title="Show or hide menu"
+        >
+          ☰ Menu
+        </button>
+        <div
+          id="toolbarControls"
+          class="controls"
+          role="toolbar"
+          aria-label="List controls"
+        >
+          <input
+            id="search"
+            type="search"
+            placeholder="Search tasks (⌘/Ctrl+K)"
+            aria-label="Search tasks"
+          />
+          <select id="sort" aria-label="Sort tasks">
+            <option value="createdDesc">Sort: Newest</option>
+            <option value="createdAsc">Sort: Oldest</option>
+            <option value="dueAsc">Sort: Due date</option>
+            <option value="priorityDesc">Sort: Priority</option>
+            <option value="manual">Sort: Custom</option>
+          </select>
+          <button
+            id="exportBtn"
+            class="btn ghost"
+            title="Export tasks as JSON"
+            aria-label="Export tasks"
+          >
+            Export
+          </button>
+          <button
+            id="importBtn"
+            class="btn ghost"
+            title="Import tasks from JSON"
+            aria-label="Import tasks"
+          >
+            Import
+          </button>
+        </div>
+      </header>
+
+      <form id="newTaskForm" class="form" autocomplete="off">
+        <input
+          id="taskInput"
+          type="text"
+          placeholder="Add a new task…"
+          aria-label="Task title"
+          required
+        />
+        <input id="dueInput" type="date" aria-label="Due date" />
+        <select id="priorityInput" aria-label="Priority">
+          <option value="low">Low</option>
+          <option value="med" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button class="btn primary" type="submit" aria-label="Add task">
+          Add
+        </button>
+      </form>
+
+      <ul id="list" class="list" aria-live="polite"></ul>
+
+      <footer>
+        <div class="filters" role="group" aria-label="Filter tasks">
+          <button class="chip" data-filter="all" aria-pressed="true">
+            All
+          </button>
+          <button class="chip" data-filter="active" aria-pressed="false">
+            Active
+          </button>
+          <button class="chip" data-filter="completed" aria-pressed="false">
+            Completed
+          </button>
+        </div>
+        <div class="actions">
+          <button id="clearCompleted" class="btn ghost">Clear Completed</button>
+          <button id="wipeAll" class="btn ghost" title="Delete all tasks">
+            Wipe All
+          </button>
+        </div>
+      </footer>
+
+      <!-- Tests panel removed -->
+    </main>
+
+    <template id="itemTemplate">
+      <!-- default draggable is false; enabled only while holding the handle to avoid flaky DnD -->
+      <li class="item" draggable="false">
+        <label style="display: flex; align-items: center; gap: 10px">
+          <input class="toggle" type="checkbox" aria-label="Mark complete" />
+          <span
+            class="title"
+            contenteditable="false"
+            role="textbox"
+            aria-label="Task title"
+          ></span>
+        </label>
+        <div class="meta"></div>
+        <div class="actions">
+          <button class="icon-btn edit" title="Edit" aria-label="Edit">
+            ✏️
+          </button>
+          <button
+            class="icon-btn danger delete"
+            title="Delete"
+            aria-label="Delete"
+          >
+            🗑️
+          </button>
+        </div>
+        <div class="handle" title="Drag to reorder" aria-hidden="true">⠿</div>
+      </li>
+    </template>
+
+    <input
+      id="filePicker"
+      type="file"
+      accept="application/json"
+      style="display: none"
+    />
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
